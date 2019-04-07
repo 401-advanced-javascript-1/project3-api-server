@@ -3,8 +3,8 @@
 const express = require('express');
 const authRouter = express.Router();
 
-const User = require('./users-model.js');
-const Role = require('./roles-model.js');
+const User = require('../auth-models/users-model.js');
+const Role = require('../auth-models/roles-model.js');
 const auth = require('./middleware.js');
 const oauth = require('./oauth/google.js');
 
