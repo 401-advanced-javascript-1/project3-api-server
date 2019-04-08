@@ -13,7 +13,7 @@ This project took our previously built API server and merged it with an authenti
 - [Heroku](https://mysterious-savannah-83587.herokuapp.com/)
 
 ## Documentation
-- Adding player models with the CLI: echo '{"name":"<string>","position":"<string>","throws":"<string>","bats":"<string>","team":"<string>"}' | http post :3000/api/v1/players/ -a username:password
+- Adding player models with the CLI: echo '{"name":"string","position":"string","throws":"string","bats":"string","team":"string"}' | http post :3000/api/v1/players/ -a username:password
 - Teams can be updated with the above command replacing "post" with "put"
 - Getting player/team models: http :3000/api/vi/players -a username:password
 - .env requirements (these will be inputs in the heroku config vars): 
