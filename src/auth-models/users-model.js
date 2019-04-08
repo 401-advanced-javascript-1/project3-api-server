@@ -18,12 +18,12 @@ const users = new mongoose.Schema({
   role: {type: String, default:'user', enum: ['admin','editor','user', 'superuser']},
 },{ toObject:{virtuals:true}, toJSON:{virtuals:true} });
 
-const capabilities = {
-  admin: ['create','read','update','delete'],
-  editor: ['create', 'read', 'update'],
-  user: ['read'],
-  superuser: ['create','read','update','delete', 'superuser'],
-};
+// const capabilities = {
+//   admin: ['create','read','update','delete'],
+//   editor: ['create', 'read', 'update'],
+//   user: ['read'],
+//   superuser: ['create','read','update','delete', 'superuser'],
+// };
 
 users.virtual('roles', {
   ref: 'roles',
@@ -32,14 +32,14 @@ users.virtual('roles', {
   justOne: false,
 });
 
-// users.pre('find', function() {
-//   try {
-//     this.populate('roles');
-//   }
-//   catch(e) {
-//     console.error('Find Error', e);
-//   }
-// });
+users.pre('find', function() {
+  try {
+    this.populate('role');
+  }
+  catch(e) {
+    console.error('Find Error', e);
+  }
+});
 
 users.pre('save', function(next) {
   bcrypt.hash(this.password, 10)
@@ -98,7 +98,8 @@ users.methods.generateToken = function(type) {
   
   let token = {
     id: this._id,
-    capabilities: capabilities[this.role],
+    // capabilities: capabilities[this.role],
+    capabilities: this.role.capabilities,
     type: type || 'user',
   };
   
@@ -111,7 +112,8 @@ users.methods.generateToken = function(type) {
 };
 
 users.methods.can = function(capability) {
-  return capabilities[this.role].includes(capability);
+  // return capabilities[this.role].includes(capability);
+  return this.role.capabilities.includes(capability);
 };
 
 users.methods.generateKey = function() {
