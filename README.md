@@ -13,10 +13,22 @@ This project took our previously built API server and merged it with an authenti
 - [Heroku](https://mysterious-savannah-83587.herokuapp.com/)
 
 ## Documentation
+### Signup
+    - echo '{"username":"string","password":"string"}' | http post :3000/signup
+    - This will return a bearer authorization token
+### Signin
+    - echo '{"username":"string","password":"string"}' | http post :3000/signin
+    - This will return a bearer authorization token which can be put in PostMan
 ### Adding player models with the CLI:
     - echo '{"name":"string","position":"string","throws":"string","bats":"string","team":"string"}' | http post :3000/api/v1/players/ -a username:password
     - Teams can be updated with the above command replacing "post" with "put"
-### Getting player/team models: http :3000/api/vi/players -a username:password
+### Getting player/team models:
+    - http :3000/api/vi/players -a username:password
+### Updating a player/team model:
+    - echo '{"name":"string","position":"string","throws":"string","bats":"string","team":"string"}' | http put :3000/api/v1/players/{:id} -a username:password
+### Deleting a player/team model:
+    - http delete :3000/api/v1/players/{:id} -a username:password
+    
 - .env requirements (these will be inputs in the heroku config vars): 
     - PORT=3000 (locally, not required for Heroku)
     - MONGODB_URI=mongodb://localhost:27017/project3 (locally, auto-updated in Heroku)
