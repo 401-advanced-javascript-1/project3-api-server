@@ -9,7 +9,6 @@ const options = {
   useCreateIndex: true,
 };
 mongoose.connect(process.env.MONGODB_URI, options);
-console.log('Welcome to my page');
 
 // Start the web server
 require('./src/app.js').start(process.env.PORT);

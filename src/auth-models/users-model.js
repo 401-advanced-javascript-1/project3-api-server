@@ -18,17 +18,17 @@ const users = new mongoose.Schema({
   role: {type: String, default:'user', enum: ['admin','editor','user', 'superuser']},
 },{ toObject:{virtuals:true}, toJSON:{virtuals:true} });
 
-// const capabilities = {
-//   admin: ['create','read','update','delete'],
-//   editor: ['create', 'read', 'update'],
-//   user: ['read'],
-//   superuser: ['create','read','update','delete', 'superuser'],
-// };
+const capabilities = {
+  admin: ['create','read','update','delete'],
+  editor: ['create', 'read', 'update'],
+  user: ['read'],
+  superuser: ['create','read','update','delete', 'superuser'],
+};
 
-users.virtual('roles', {
+users.virtual('role', {
   ref: 'roles',
   localField: 'role',
-  foreignField: 'role',
+  foreignField: 'roles',
   justOne: false,
 });
 
