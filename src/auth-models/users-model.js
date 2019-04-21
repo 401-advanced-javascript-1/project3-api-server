@@ -25,21 +25,21 @@ const capabilities = {
   superuser: ['create','read','update','delete', 'superuser'],
 };
 
-users.virtual('role', {
-  ref: 'roles',
-  localField: 'role',
-  foreignField: 'roles',
-  justOne: false,
-});
+// users.virtual('role', {
+//   ref: 'roles',
+//   localField: 'role',
+//   foreignField: 'roles',
+//   justOne: false,
+// });
 
-users.pre('find', function() {
-  try {
-    this.populate('role');
-  }
-  catch(e) {
-    console.error('Find Error', e);
-  }
-});
+// users.pre('find', function() {
+//   try {
+//     this.populate('role');
+//   }
+//   catch(e) {
+//     console.error('Find Error', e);
+//   }
+// });
 
 users.pre('save', function(next) {
   bcrypt.hash(this.password, 10)
@@ -98,8 +98,8 @@ users.methods.generateToken = function(type) {
   
   let token = {
     id: this._id,
-    // capabilities: capabilities[this.role],
-    capabilities: this.role.capabilities,
+    capabilities: capabilities[this.role],
+    // capabilities: this.role.capabilities,
     type: type || 'user',
   };
   
@@ -112,8 +112,8 @@ users.methods.generateToken = function(type) {
 };
 
 users.methods.can = function(capability) {
-  // return capabilities[this.role].includes(capability);
-  return this.role.capabilities.includes(capability);
+  return capabilities[this.role].includes(capability);
+  // return this.role.capabilities.includes(capability);
 };
 
 users.methods.generateKey = function() {
